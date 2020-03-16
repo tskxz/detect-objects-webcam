@@ -13,7 +13,7 @@ while True:
         continue
 
     delta_frame = cv2.absdiff(first_frame, gray)
-    thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.threshold(delta_frame, 127, 255, cv2.THRESH_BINARY)[1]
     thresh_frame = cv2.dilate(thresh_frame, None, iterations=2)
 
     (_, cnts, _) = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -28,9 +28,9 @@ while True:
     cv2.imshow("THRESH FRAME", thresh_frame)
     cv2.imshow("Image", frame)
 
-    key = cv2.waitKey(2)
     print(gray)
     print(delta_frame)
+    key = cv2.waitKey(1)
     if key == ord('q'):
         break
 
