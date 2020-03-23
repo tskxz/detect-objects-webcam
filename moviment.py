@@ -25,10 +25,10 @@ while True:
 
     delta_frame = cv2.absdiff(first_frame, gray)
     # On my bedroom
-    thresh_frame = cv2.threshold(delta_frame, 200, 255, cv2.THRESH_BINARY)[1]
+    thresh_frame = cv2.threshold(delta_frame, 127, 255, cv2.THRESH_BINARY)[1]
 
     # on my room
-    # thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY_INV)[1]
+    #thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY_INV)[1]
     thresh_frame = cv2.dilate(thresh_frame, None, iterations=2)
 
     (_, cnts, _) = cv2.findContours(thresh_frame.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -41,6 +41,7 @@ while True:
         (x, y, w, h) = cv2.boundingRect(contour)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
     status_list.append(status)
+    status_list = status_list[-2:]
     if status_list[-1] == 1 and status_list[-2] == 0:
         times.append(datetime.now())
     if status_list[-1] == 0 and status_list[-2] == 1:
